@@ -1,0 +1,7 @@
+﻿@model TravelAgency.Models.Client
+
+<div class="card mb-3 p-3 border rounded shadow-sm">
+    <h4>@Model.Name</h4>
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Reservas Ativas:</strong> @Model.Reservations?.Count() ?? 0</p>
+</div>

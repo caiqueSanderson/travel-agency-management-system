@@ -1,0 +1,54 @@
+﻿@page
+@model TravelAgency.Pages.Destinations.IndexModel
+@{
+	ViewData["Title"] = "Destinos";
+}
+
+<div class="card">
+	<h1 class="mb-4">Destinos Cadastrados</h1>
+
+	<p>
+		<a class="btn btn-success" asp-page="Create">
+			<i class="bi bi-plus-circle"></i> Novo Destino
+		</a>
+	</p>
+
+	@if (Model.Destinations.Any())
+	{
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Cidade</th>
+					<th>País</th>
+					<th class="text-center">Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model.Destinations)
+				{
+					<tr>
+						<td>@item.Id</td>
+						<td>@item.Name</td>
+						<td>@item.Country</td>
+						<td class="text-center">
+							<a class="btn btn-sm btn-primary" asp-page="Edit" asp-route-id="@item.Id">
+								<i class="bi bi-pencil"></i> Editar
+							</a>
+							<a class="btn btn-sm btn-danger" asp-page="Details" asp-route-id="@item.Id">
+								<i class="bi bi-trash"></i> Excluir
+							</a>
+							<a class="btn btn-sm btn-secondary" asp-page="Delete" asp-route-id="@item.Id">
+								<i class="bi bi-info-circle"></i> Detalhes
+							</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+	else
+	{
+		<p>Não há destinos cadastrados.</p>
+	}
+</div>

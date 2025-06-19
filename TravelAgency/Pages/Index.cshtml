@@ -1,0 +1,103 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Dashboard | Agência de Viagens";
+}
+
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">Sistema de Gerenciamento de Agência de Viagens</h1>
+        <p class="lead text-muted mb-4">
+            Gerencie facilmente seus destinos, pacotes turísticos, clientes e reservas.
+        </p>
+        <a class="btn btn-primary btn-lg" asp-page="/Reservations/Index">Fazer uma Reserva</a>
+    </div>
+</section>
+
+<section class="container py-5">
+    <div class="row g-4">
+        <!-- Destinos -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm d-flex flex-column h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-geo-alt-fill display-5 text-primary"></i>
+                    <h5 class="card-title mt-3">Destinos</h5>
+                    <p class="card-text">Gerencie cidades e países disponíveis para os pacotes.</p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-page="/Destinations/Index" class="btn btn-outline-primary w-100">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pacotes Turísticos -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm d-flex flex-column h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-luggage-fill display-5 text-success"></i>
+                    <h5 class="card-title mt-3">Pacotes Turísticos</h5>
+                    <p class="card-text">Crie, edite e acompanhe pacotes com destinos e preços.</p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-page="/TourPackages/Index" class="btn btn-outline-success w-100">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clientes -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm d-flex flex-column h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-people-fill display-5 text-warning"></i>
+                    <h5 class="card-title mt-3">Clientes</h5>
+                    <p class="card-text">Cadastre e gerencie os clientes da agência.</p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-page="/Clients/Index" class="btn btn-outline-warning w-100">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reservas -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm d-flex flex-column h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-calendar-check-fill display-5 text-info"></i>
+                    <h5 class="card-title mt-3">Reservas</h5>
+                    <p class="card-text">Controle as reservas feitas pelos clientes nos pacotes.</p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-page="/Reservations/Index" class="btn btn-outline-info w-100">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Anotações -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm d-flex flex-column h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-journal-text display-5 text-secondary"></i>
+                    <h5 class="card-title mt-3">Anotações</h5>
+                    <p class="card-text">Crie e consulte anotações administrativas da agência.</p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-page="/ViewNotes" class="btn btn-outline-secondary w-100">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Autenticação -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm d-flex flex-column h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-box-arrow-in-right display-5 text-danger"></i>
+                    <h5 class="card-title mt-3">Autenticação</h5>
+                    <p class="card-text">Faça login ou logout para acessar funcionalidades restritas.</p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a asp-page="/Login" class="btn btn-outline-danger w-100">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,20 @@
+﻿@model TravelAgency.Models.TourPackage
+
+<div class="card mb-3 p-3 border rounded shadow-sm">
+	<h4>@Model.Title</h4>
+	<p><strong>Data de Início:</strong> @Model.StartDate.ToString("dd/MM/yyyy")</p>
+	<p><strong>Preço:</strong> R$ @Model.Price.ToString("N2")</p>
+	<p><strong>Capacidade Máxima:</strong> @Model.MaxCapacity</p>
+
+    @if (Model.Destinations != null && Model.Destinations.Any())
+    {
+        <p>
+            <strong>Destinos:</strong>
+            @string.Join(", ", Model.Destinations.Select(d => d.Name))
+        </p>
+    }
+    else
+    {
+        <p><em>Sem destinos cadastrados</em></p>
+    }
+</div>

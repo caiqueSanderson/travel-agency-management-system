@@ -1,0 +1,17 @@
+﻿@page
+@model TravelAgency.Pages.Destinations.CreateModel
+@{
+	ViewData["Title"] = "Novo Destino";
+}
+
+<h1>Novo Destino</h1>
+
+<form method="post">
+    <partial name="_DestinationForm" model="Model.Destination" />
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
