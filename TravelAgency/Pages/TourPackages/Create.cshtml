@@ -5,15 +5,18 @@
 	ViewData["Title"] = "Novo Pacote Turístico";
 }
 
-<h1>Novo Pacote Turístico</h1>
+<div class="card">
+	<h1>Novo Pacote Turístico</h1>
 
-<form method="post">
-	<partial name="_TourPackageForm" model="Model.TourPackage" />
+	<form method="post">
+		<partial name="_TourPackageForm" model="Model.TourPackage" />
 
-	<button type="submit" class="btn btn-success">Salvar</button>
-	<a asp-page="Index" class="btn btn-secondary">Cancelar</a>
-</form>
-
+		<button type="submit" class="btn btn-success">
+			<i class="bi bi-floppy-fill"></i> Salvar
+		</button>
+		<a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+	</form>
+</div>
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />

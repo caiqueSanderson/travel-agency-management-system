@@ -32,19 +32,19 @@
 				{
 					<tr>
 						<td>
-							@Html.DisplayFor(modelItem => item.Id)
+							@item.Id
 						</td>
 						<td>
-							@Html.DisplayFor(modelItem => item.Title)
+							@item.Title
 						</td>
 						<td>
-							@Html.DisplayFor(modelItem => item.StartDate)
+							@item.StartDate.ToString("dd/MM/yyyy")
 						</td>
 						<td>
-							@Html.DisplayFor(modelItem => item.MaxCapacity)
+							@item.MaxCapacity
 						</td>
 						<td>
-							@Html.DisplayFor(modelItem => item.Price)
+							@item.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)
 						</td>
 						<td class="text-center">
 							<a class="btn btn-sm btn-primary" asp-page="Edit" asp-route-id="@item.Id">

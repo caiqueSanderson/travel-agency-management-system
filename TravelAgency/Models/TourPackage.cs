@@ -25,5 +25,7 @@ namespace TravelAgency.Models
 
         public List<Destination> Destinations { get; set; } = new();
         public List<Reservation> Reservations { get; set; } = new();
+
+        public bool IsDeleted { get; set; } = false;
     }
 }

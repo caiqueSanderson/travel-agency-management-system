@@ -2,53 +2,22 @@
 @model TravelAgency.Pages.TourPackages.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+	ViewData["Title"] = "Editar Pacote Turístico";
 }
 
-<h1>Edit</h1>
+<div class="card">
+	<h1>Editar Pacote Turístico</h1>
 
-<h4>TourPackage</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="TourPackage.Id" />
-            <div class="form-group">
-                <span class="text-danger">*</span>
-                <label asp-for="TourPackage.Title" class="control-label"></label>
-                <input asp-for="TourPackage.Title" class="form-control" />
-                <span asp-validation-for="TourPackage.Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <span class="text-danger">*</span>
-                <label asp-for="TourPackage.StartDate" class="control-label"></label>
-                <input asp-for="TourPackage.StartDate" class="form-control" />
-                <span asp-validation-for="TourPackage.StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <span class="text-danger">*</span>
-                <label asp-for="TourPackage.MaxCapacity" class="control-label"></label>
-                <input asp-for="TourPackage.MaxCapacity" class="form-control" />
-                <span asp-validation-for="TourPackage.MaxCapacity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <span class="text-danger">*</span>
-                <label asp-for="TourPackage.Price" class="control-label"></label>
-                <input asp-for="TourPackage.Price" class="form-control" />
-                <span asp-validation-for="TourPackage.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+	<form method="post">
+		<partial name="_TourPackageForm" model="Model.TourPackage" />
 
-<div>
-    <a asp-page="./Index">Back to List</a>
+		<button type="submit" class="btn btn-success">
+			<i class="bi bi-floppy-fill"></i> Salvar Edição
+		</button>
+		<a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+	</form>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	<partial name="_ValidationScriptsPartial" />
 }

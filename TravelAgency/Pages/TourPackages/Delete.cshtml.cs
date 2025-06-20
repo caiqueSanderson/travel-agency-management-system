@@ -12,9 +12,9 @@ namespace TravelAgency.Pages.TourPackages
 {
     public class DeleteModel : PageModel
     {
-        private readonly TravelAgency.Data.TravelAgencyContext _context;
+        private readonly TravelAgencyContext _context;
 
-        public DeleteModel(TravelAgency.Data.TravelAgencyContext context)
+        public DeleteModel(TravelAgencyContext context)
         {
             _context = context;
         }
@@ -44,7 +44,7 @@ namespace TravelAgency.Pages.TourPackages
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.TourPackages == null)
             {
                 return NotFound();
             }
@@ -52,8 +52,8 @@ namespace TravelAgency.Pages.TourPackages
             var tourpackage = await _context.TourPackages.FindAsync(id);
             if (tourpackage != null)
             {
-                TourPackage = tourpackage;
-                _context.TourPackages.Remove(TourPackage);
+                tourpackage.IsDeleted = true;
+                _context.TourPackages.Update(TourPackage);
                 await _context.SaveChangesAsync();
             }
 
