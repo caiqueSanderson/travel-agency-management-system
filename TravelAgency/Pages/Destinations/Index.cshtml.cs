@@ -20,8 +20,8 @@ namespace TravelAgency.Pages.Destinations
         public async Task OnGetAsync()
         {
             Destinations = await _context.Destinations
-                .Where(d => !d.IsDeleted).
-                ToListAsync();
+                .Where(d => !d.IsDeleted)
+                .ToListAsync();
         }
     }
 }

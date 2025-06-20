@@ -23,7 +23,9 @@ namespace TravelAgency.Pages.TourPackages
 
         public async Task OnGetAsync()
         {
-            TourPackages = await _context.TourPackages.ToListAsync();
+            TourPackages = await _context.TourPackages
+                .Where(t => !t.IsDeleted)
+                .ToListAsync();
         }
     }
 }
