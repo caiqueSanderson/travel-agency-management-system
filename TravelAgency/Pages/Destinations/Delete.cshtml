@@ -26,9 +26,12 @@
     </dl>
 
     <form method="post">
+        <input type="hidden" asp-for="Destination.Id" />
+
         <button type="submit" class="btn btn-danger">
             <i class="bi bi-trash"></i> Confirmar Exclusão
         </button>
+
         <a asp-page="./Index" class="btn btn-secondary">
             Cancelar
         </a>

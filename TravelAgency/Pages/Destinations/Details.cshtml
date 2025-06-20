@@ -2,24 +2,25 @@
 @model TravelAgency.Pages.Destinations.DetailsModel
 
 @{
-	ViewData["Title"] = "Details";
+	ViewData["Title"] = "Detalhes do Destino";
 }
 
 <div class="card">
 	<h1>Detalhes do destino</h1>
+	<hr />
 
 	<dl class="row">
 		<dt class="col-sm-3">
 			Cidade
 		</dt>
 		<dd class="col-sm-9">
-			@Html.DisplayFor(model => model.Destination.Name)
+			@Model.Destination.Name
 		</dd>
 		<dt class="col-sm-3">
 			País
 		</dt>
 		<dd class="col-sm-9">
-			@Html.DisplayFor(model => model.Destination.Country)
+			@Model.Destination.Country
 		</dd>
 	</dl>
 	<div>
