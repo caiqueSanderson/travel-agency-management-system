@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TravelAgency.Data;
@@ -19,7 +19,9 @@ namespace TravelAgency.Pages.Destinations
 
         public async Task OnGetAsync()
         {
-            Destinations = await _context.Destinations.ToListAsync();
+            Destinations = await _context.Destinations
+                .Where(d => !d.IsDeleted).
+                ToListAsync();
         }
     }
 }

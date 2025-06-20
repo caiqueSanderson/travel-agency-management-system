@@ -14,5 +14,7 @@ namespace TravelAgency.Models
         public string Country { get; set; }
 
         public List<TourPackage> TourPackages { get; set; } = new();
+
+        public bool IsDeleted { get; set; } = false;
     }
 }

@@ -1,0 +1,32 @@
+﻿@page
+@model TravelAgency.Pages.Destinations.DetailsModel
+
+@{
+	ViewData["Title"] = "Details";
+}
+
+<div class="card">
+	<h1>Detalhes do destino</h1>
+
+	<dl class="row">
+		<dt class="col-sm-3">
+			Cidade
+		</dt>
+		<dd class="col-sm-9">
+			@Html.DisplayFor(model => model.Destination.Name)
+		</dd>
+		<dt class="col-sm-3">
+			País
+		</dt>
+		<dd class="col-sm-9">
+			@Html.DisplayFor(model => model.Destination.Country)
+		</dd>
+	</dl>
+	<div>
+		<a asp-page="./Edit" asp-route-id="@Model.Destination.Id" class="btn btn-warning">
+			<i class="bi bi-pencil"></i> Editar
+		</a>
+		<a asp-page="./Index" class="btn btn-secondary">Cancelar</a>
+	</div>
+</div>
+

@@ -1,0 +1,36 @@
+﻿@page
+@model TravelAgency.Pages.Destinations.DeleteModel
+@{
+    ViewData["Title"] = "Excluir Destino";
+}
+
+<div class="card">
+    <h1>Excluir Destino</h1>
+
+    <h4>Você tem certeza que deseja excluir este destino?</h4>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-3">
+            Cidade
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Destination.Name
+        </dd>
+        <dt class="col-sm-3">
+            País
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Destination.Country
+        </dd>
+    </dl>
+
+    <form method="post">
+        <button type="submit" class="btn btn-danger">
+            <i class="bi bi-trash"></i> Confirmar Exclusão
+        </button>
+        <a asp-page="./Index" class="btn btn-secondary">
+            Cancelar
+        </a>
+    </form>
+</div>

@@ -4,14 +4,21 @@
 	ViewData["Title"] = "Editar Destino";
 }
 
-<h1>Editar Destino</h1>
+<div class="card">
+	<h1>Editar Destino</h1>
 
-<form method="post">
-    <partial name="_DestinationForm" model="Model.Destination" />
-    <button type="submit" class="btn btn-success">Salvar</button>
-    <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
-</form>
+	<form method="post">
+
+		<partial name="_DestinationForm" model="Model.Destination" />
+
+		<button type="submit" class="btn btn-success">
+			<i class="bi bi-floppy-fill"></i> Salvar
+		</button>
+		<a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+	</form>
+</div>
+
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+	<partial name="_ValidationScriptsPartial" />
 }
