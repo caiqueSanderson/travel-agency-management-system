@@ -1,0 +1,62 @@
+﻿@page
+@model TravelAgency.Pages.Reservations.IndexModel
+
+@{
+	ViewData["Title"] = "Reservas";
+}
+
+<div class="card">
+	<h1 class="mb-4">Reservas Cadastradas</h1>
+
+	<p>
+		<a class="btn btn-success" asp-page="Create">
+			<i class="bi bi-plus-circle"></i> Nova Reserva
+		</a>
+	</p>
+
+	@if (Model.ReservationList.Any())
+	{
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Cliente</th>
+					<th>Pacote Turístico</th>
+					<th>Data de Reserva</th>
+					<th class="text-center">Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model.ReservationList)
+				{
+					<tr>
+						<td>
+							@item.Client.Name
+						</td>
+						<td>
+							@item.TourPackage.Title
+						</td>
+						<td>
+							@item.ReservationDate
+						</td>
+						<td class="text-center">
+							<a class="btn btn-sm btn-primary" asp-page="./Edit" asp-route-id="@item.Id">
+								<i class="bi bi-pencil"></i> Editar
+							</a>
+							<a class="btn btn-sm btn-secondary" asp-page="./Details" asp-route-id="@item.Id">
+								<i class="bi bi-info-circle"></i> Detalhes
+							</a>
+							<a class="btn btn-sm btn-danger" asp-page="./Delete" asp-route-id="@item.Id">
+								<i class="bi bi-trash"></i> Excluir
+							</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
+	}
+	else
+	{
+		<p>Não há reservas cadastradas.</p>
+	}
+</div>

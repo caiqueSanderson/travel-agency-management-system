@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TravelAgency.Data;
 using TravelAgency.Models;
 
-namespace TravelAgency.Pages.Destinations
+namespace TravelAgency.Pages.Reservations
 {
     public class DetailsModel : PageModel
     {
@@ -19,7 +19,8 @@ namespace TravelAgency.Pages.Destinations
             _context = context;
         }
 
-        public Destination Destination { get; set; } = default!;
+        public Reservation Reservation { get; set; } = default!;
+        public bool IsFull { get; set; } = false;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,15 +29,25 @@ namespace TravelAgency.Pages.Destinations
                 return NotFound();
             }
 
-            var destination = await _context.Destinations.FirstOrDefaultAsync(m => m.Id == id);
-            if (destination == null)
+            var reservation = await _context.Reservations
+                .Include(r => r.Client)
+                .Include(r => r.TourPackage)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (reservation == null)
             {
                 return NotFound();
             }
             else
             {
-                Destination = destination;
+                Reservation = reservation;
             }
+
+            var totalReservations = await _context.Reservations
+            .CountAsync(r => r.TourPackageId == Reservation.TourPackageId && !r.IsDeleted);
+
+            IsFull = totalReservations >= Reservation.TourPackage.MaxCapacity;
+
             return Page();
         }
     }

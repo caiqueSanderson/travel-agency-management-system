@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int}"
 @model TravelAgency.Pages.Destinations.DetailsModel
 
 @{
@@ -24,10 +24,12 @@
 		</dd>
 	</dl>
 	<div>
-		<a asp-page="./Edit" asp-route-id="@Model.Destination.Id" class="btn btn-warning">
+		<a class="btn btn-warning" asp-page="./Edit" asp-route-id="@Model.Destination.Id">
 			<i class="bi bi-pencil"></i> Editar
 		</a>
-		<a asp-page="./Index" class="btn btn-secondary">Cancelar</a>
+		<a class="btn btn-secondary" asp-page="./Index">
+			Cancelar
+		</a>
 	</div>
 </div>
 

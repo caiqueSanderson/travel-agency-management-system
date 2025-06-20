@@ -1,0 +1,50 @@
+﻿@page
+@model TravelAgency.Pages.Reservations.CreateModel
+
+@{
+	ViewData["Title"] = "Nova Reserva";
+}
+
+<div class="card">
+	<h1>Nova Reserva</h1>
+
+	<form method="post">
+		<div class="mb-3">
+			<label asp-for="Reservation.ClientId" class="form-label">Cliente</label>
+			<select asp-for="Reservation.ClientId" class="form-control" asp-items="Model.ClientList">
+				<option value="">Selecione um Cliente</option>
+			</select>
+			<span asp-validation-for="Reservation.ClientId" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="Reservation.TourPackageId" class="form-label">Pacote Turístico</label>
+			<select asp-for="Reservation.TourPackageId" class="form-control" asp-items="Model.TourPackageList">
+				<option value="">Selecione um Pacote</option>
+			</select>
+			<span asp-validation-for="Reservation.TourPackageId" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="Reservation.ReservationDate" class="form-label">Data da Reserva</label>
+			<input asp-for="Reservation.ReservationDate" class="form-control" type="date" />
+			<span asp-validation-for="Reservation.ReservationDate" class="text-danger"></span>
+		</div>
+
+		<button type="submit" class="btn btn-success">
+			<i class="bi bi-floppy-fill"></i> Salvar
+		</button>
+		<a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+	</form>
+
+	<div>
+		@foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+		{
+			<div class="alert alert-danger mt-2">@error.ErrorMessage</div>
+		}
+	</div>
+</div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

@@ -17,5 +17,6 @@ namespace TravelAgency.Models
         [Required(ErrorMessage = "Data de reserva é obrigatória")]
         [DataType(DataType.Date)]
         public DateTime ReservationDate { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }
