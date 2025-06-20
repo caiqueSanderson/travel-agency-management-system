@@ -1,0 +1,50 @@
+﻿@page
+@model TravelAgency.Pages.ViewNotesModel
+@{
+	ViewData["Title"] = "Sistema de Notas";
+}
+
+<div class="card p-4 shadow">
+    <h1>Sistema de Notas</h1>
+
+    <h4>Adicionar Nova Nota</h4>
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Nome do Arquivo (sem .txt)</label>
+            <input type="text" name="FileName" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Conteúdo da Nota</label>
+            <textarea name="Content" class="form-control" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-save"></i> Salvar Nota
+        </button>
+    </form>
+
+    <hr />
+
+    <h4>Notas Salvas</h4>
+    @if (Model.NoteFiles.Any())
+    {
+        <ul class="list-group">
+            @foreach (var file in Model.NoteFiles)
+            {
+                <li class="list-group-item">
+                    <a asp-page="ViewNotes" asp-route-fileName="@file">@file</a>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Nenhuma nota disponível.</p>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.SelectedFileContent))
+    {
+        <hr />
+        <h5>Conteúdo da Nota: <strong>@Model.SelectedFileName</strong></h5>
+        <pre class="bg-light p-3">@Model.SelectedFileContent</pre>
+    }
+</div>
