@@ -1,0 +1,69 @@
+﻿@page
+@model TravelAgency.Pages.TourPackages.IndexModel
+
+@{
+	ViewData["Title"] = "Pacotes Turísticos";
+}
+
+<div class="card">
+	<h1 class="mb-4">Pacotes Turísticos Cadastrados</h1>
+
+	<p>
+		<a class="btn btn-success" asp-page="Create">
+			<i class="bi bi-plus-circle"></i> Novo Pacote Turístico
+		</a>
+	</p>
+
+	@if (Model.TourPackages.Any())
+	{
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Titulo</th>
+					<th>Data_Inicio</th>
+					<th>Capacidade Máxima</th>
+					<th>Preço</th>
+					<th class="text-center">Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model.TourPackages)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.Id)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Title)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.StartDate)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.MaxCapacity)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Price)
+						</td>
+						<td>
+							<a class="btn btn-sm btn-primary" asp-page="Edit" asp-route-id="@item.Id">
+								<i class="bi bi-pencil"></i> Editar
+							</a>
+							<a class="btn btn-sm btn-secondary" asp-page="Details" asp-route-id="@item.Id">
+								<i class="bi bi-info-circle"></i> Detalhes
+							</a>
+							<a class="btn btn-sm btn-danger" asp-page="Delete" asp-route-id="@item.Id">
+								<i class="bi bi-trash"></i> Deletar
+							</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+	else
+	{
+		<p>Não há pacotes turísticos cadastrados.</p>
+	}
+</div>
