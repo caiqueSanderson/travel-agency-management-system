@@ -1,0 +1,40 @@
+﻿@page
+@model TravelAgency.Pages.Clients.DeleteModel
+
+@{
+	ViewData["Title"] = "Excluir Cliente";
+}
+
+<div class="card">
+	<h1>Excluir Cliente</h1>
+
+	<h4>Você tem certeza que deseja excluir este cliente?</h4>
+	<hr />
+
+	<dl class="row">
+		<dt class="col-sm-2">
+			Nome
+		</dt>
+		<dd class="col-sm-10">
+			@Model.Client.Name
+		</dd>
+		<dt class="col-sm-2">
+			Email
+		</dt>
+		<dd class="col-sm-10">
+			@Model.Client.Email
+		</dd>
+	</dl>
+
+	<form method="post">
+		<input type="hidden" asp-for="Client.Id" />
+
+		<button class="btn btn-danger" type="submit">
+			<i class="bi bi-trash"></i> Confirmar Exclusão
+		</button>
+
+		<a class="btn btn-secondary" asp-page="./Index">
+			Cancelar
+		</a>
+	</form>
+</div>

@@ -1,0 +1,36 @@
+﻿@page
+@model TravelAgency.Pages.Clients.DetailsModel
+
+@{
+	ViewData["Title"] = "Detalhes do Cliente";
+}
+
+<div class="card">
+	<h1>Detalhes do Cliente</h1>
+	<hr />
+
+	<dl class="row">
+		<dt class="col-sm-2">
+			Nome do Cliente
+		</dt>
+		<dd class="col-sm-10">
+			@Model.Client.Name
+		</dd>
+		<dt class="col-sm-2">
+			Email
+		</dt>
+		<dd class="col-sm-10">
+			@Model.Client.Email
+		</dd>
+	</dl>
+
+	<div>
+		<a class="btn btn-warning" asp-page="./Edit" asp-route-id="@Model.Client.Id">
+			<i class="bi bi-pencil"></i> Editar
+		</a> 
+
+		<a class="btn btn-secondary" asp-page="./Index">
+			Cancelar
+		</a>
+	</div>
+</div>

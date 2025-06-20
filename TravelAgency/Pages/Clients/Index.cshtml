@@ -1,0 +1,61 @@
+﻿@page
+@model TravelAgency.Pages.Clients.IndexModel
+
+@{
+	ViewData["Title"] = "Clientes";
+}
+
+<div class="card">
+	<h1 class="mb-4">Clientes Cadastrados</h1>
+
+	<p>
+		<a class="btn btn-success" asp-page="Create">
+			<i class="bi bi-plus-circle"></i> Novo Cliente
+		</a>
+	</p>
+
+	@if (Model.Client.Any())
+	{
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>
+						Nome
+					</th>
+					<th>
+						Email
+					</th>
+					<th class="text-center">Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model.Client)
+				{
+					<tr>
+						<td>
+							@item.Name
+						</td>
+						<td>
+							@item.Email
+						</td>
+						<td class="text-center">
+							<a class="btn btn-sm btn-primary" asp-page="./Edit" asp-route-id="@item.Id">
+								<i class="bi bi-pencil"></i> Editar
+							</a>
+							<a class="btn btn-sm btn-secondary" asp-page="./Details" asp-route-id="@item.Id">
+								<i class="bi bi-info-circle"></i> Detalhes
+							</a>
+							<a class="btn btn-sm btn-danger" asp-page="./Delete" asp-route-id="@item.Id">
+								<i class="bi bi-trash"></i> Excluir
+							</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+	else
+	{
+		<p>Não há clientes cadastrados.</p>
+	}
+</div>

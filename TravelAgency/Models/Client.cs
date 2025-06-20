@@ -15,5 +15,7 @@ namespace TravelAgency.Models
         public string Email { get; set; }
 
         public List<Reservation> Reservations { get; set; } = new();
+
+        public bool IsDeleted { get; set; } = false;
     }
 }
