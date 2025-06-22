@@ -8,11 +8,11 @@ namespace TravelAgency.Models
 
         [Required]
         public int ClientId { get; set; }
-        public Client Client { get; set; }
+        public Client? Client { get; set; }
 
         [Required]
         public int TourPackageId { get; set; }
-        public TourPackage TourPackage { get; set; }
+        public TourPackage? TourPackage { get; set; }
 
         [Required(ErrorMessage = "Data de reserva é obrigatória")]
         [DataType(DataType.Date)]

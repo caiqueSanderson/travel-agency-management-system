@@ -11,7 +11,7 @@
 	<form method="post">
 		<div class="mb-3">
 			<label asp-for="Reservation.ClientId" class="form-label">Cliente</label>
-			<select asp-for="Reservation.ClientId" class="form-control" asp-items="Model.ClientList">
+			<select asp-for="Reservation.ClientId" class="form-control" asp-items="Model.ClientList ?? new SelectList(Enumerable.Empty<object>())">
 				<option value="">Selecione um Cliente</option>
 			</select>
 			<span asp-validation-for="Reservation.ClientId" class="text-danger"></span>
@@ -19,7 +19,7 @@
 
 		<div class="mb-3">
 			<label asp-for="Reservation.TourPackageId" class="form-label">Pacote Turístico</label>
-			<select asp-for="Reservation.TourPackageId" class="form-control" asp-items="Model.TourPackageList">
+			<select asp-for="Reservation.TourPackageId" class="form-control" asp-items="Model.TourPackageList ?? new SelectList(Enumerable.Empty<object>())">
 				<option value="">Selecione um Pacote</option>
 			</select>
 			<span asp-validation-for="Reservation.TourPackageId" class="text-danger"></span>

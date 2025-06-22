@@ -17,13 +17,17 @@ namespace TravelAgency.Pages.Reservations
         }
 
         [BindProperty]
-        public Reservation Reservation { get; set; } = default!;
+        public Reservation Reservation { get; set; } = new();
 
-        public SelectList ClientList { get; set; }
-        public SelectList TourPackageList { get; set; }
+        public SelectList? ClientList { get; set; }
+        public SelectList? TourPackageList { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
+            Reservation = new Reservation
+            {
+                ReservationDate = DateTime.Today
+            };
             await LoadListsAsync();
             return Page();
         }
@@ -50,7 +54,7 @@ namespace TravelAgency.Pages.Reservations
                 return Page();
             }
 
-            if (Reservation.ReservationDate >= tourPackage.StartDate)
+            if (Reservation.ReservationDate < tourPackage.StartDate)
             {
                 ModelState.AddModelError(string.Empty, "A data da reserva deve ser posterior ou igual à data de início do pacote.");
                 return Page();

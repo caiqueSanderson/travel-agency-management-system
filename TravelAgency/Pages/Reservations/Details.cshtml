@@ -10,31 +10,54 @@
 	<hr />
 
 	<dl class="row">
-		<dt class="col-sm-2">
-			Cliente
-		</dt>
-		<dd class="col-sm-10">
-			@Model.Reservation.Client.Name
+		<dt class="col-sm-3">Cliente</dt>
+		<dd class="col-sm-9">@Model.Reservation.Client.Name</dd>
+
+		<dt class="col-sm-3">Pacote Turístico</dt>
+		<dd class="col-sm-9">@Model.Reservation.TourPackage.Title</dd>
+
+		<dt class="col-sm-3">Data da Reserva</dt>
+		<dd class="col-sm-9">@Model.Reservation.ReservationDate.ToString("dd/MM/yyyy")</dd>
+
+		<dt class="col-sm-3">Data de Início do Pacote</dt>
+		<dd class="col-sm-9">@Model.Reservation.TourPackage.StartDate.ToString("dd/MM/yyyy")</dd>
+
+		<dt class="col-sm-3">Preço do Pacote</dt>
+		<dd class="col-sm-9">R$ @Model.Reservation.TourPackage.Price.ToString("N2")</dd>
+
+		<dt class="col-sm-3">Capacidade Máxima</dt>
+		<dd class="col-sm-9">@Model.Reservation.TourPackage.MaxCapacity pessoas</dd>
+
+		<dt class="col-sm-3">Total de Reservas</dt>
+		<dd class="col-sm-9">@Model.TotalReservations pessoas</dd>
+
+		<dt class="col-sm-3">Status</dt>
+		<dd class="col-sm-9">
+			@if (Model.IsFull)
+			{
+				<span class="badge bg-danger">Pacote Lotado</span>
+			}
+			else
+			{
+				<span class="badge bg-success">Vaga Confirmada</span>
+			}
 		</dd>
 
-		<dt class="col-sm-2">
-			Pacote Turístico
-		</dt>
-		<dd class="col-sm-10">
-			@Model.Reservation.TourPackage.Title
-		</dd>
-
-		<dt class="col-sm-2">
-			Data da Reserva
-		</dt>
-		<dd class="col-sm-10">
-			@Model.Reservation.ReservationDate
-
-		</dd><dt class="col-sm-2">
-			Status
-		</dt>
-		<dd class="col-sm-10">
-			@Model.IsFull ? "Pacote Lotado" : "Vaga Confirmada"
+		<dt class="col-sm-3">Destinos</dt>
+		<dd class="col-sm-9">
+			@if (Model.Reservation.TourPackage.Destinations != null && Model.Reservation.TourPackage.Destinations.Any())
+			{
+				<div>
+					@foreach (var destination in Model.Reservation.TourPackage.Destinations)
+					{
+						<span class="badge bg-primary me-1">@destination.Name</span>
+					}
+				</div>
+			}
+			else
+			{
+				<span class="text-muted">Nenhum destino associado.</span>
+			}
 		</dd>
 	</dl>
 

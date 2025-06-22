@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using TravelAgency.Models;
 
 namespace TravelAgency.Pages.Reservations
 {
+    [Authorize]
     public class DeleteModel : PageModel
     {
         private readonly TravelAgencyContext _context;
@@ -29,7 +31,10 @@ namespace TravelAgency.Pages.Reservations
                 return NotFound();
             }
 
-            var reservation = await _context.Reservations.FirstOrDefaultAsync(m => m.Id == id);
+            var reservation = await _context.Reservations
+                .Include(r => r.Client)
+                .Include(r => r.TourPackage)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (reservation == null)
             {
@@ -52,8 +57,8 @@ namespace TravelAgency.Pages.Reservations
             var reservation = await _context.Reservations.FindAsync(id);
             if (reservation != null)
             {
-                Reservation = reservation;
-                _context.Reservations.Remove(Reservation);
+                reservation.IsDeleted = true;
+                _context.Reservations.Update(Reservation);
                 await _context.SaveChangesAsync();
             }
 

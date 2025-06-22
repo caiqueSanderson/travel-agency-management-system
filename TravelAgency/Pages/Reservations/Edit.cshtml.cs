@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,51 +17,91 @@ namespace TravelAgency.Pages.Reservations
         }
 
         [BindProperty]
-        public Reservation Reservation { get; set; } = default!;
+        public Reservation Reservation { get; set; } = new();
+
+        public SelectList? ClientList { get; set; }
+        public SelectList? TourPackageList { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var reservation =  await _context.Reservations.FirstOrDefaultAsync(m => m.Id == id);
-            if (reservation == null)
-            {
+            Reservation = await _context.Reservations
+                .Include(r => r.Client)
+                .Include(r => r.TourPackage)
+                .FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted);
+
+            if (Reservation == null)
                 return NotFound();
-            }
-            Reservation = reservation;
-           ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Email");
-           ViewData["TourPackageId"] = new SelectList(_context.TourPackages, "Id", "Title");
+
+            await LoadListsAsync();
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            await LoadListsAsync();
+
             if (!ModelState.IsValid)
+                return Page();
+
+            var tourPackage = await _context.TourPackages
+                .FirstOrDefaultAsync(p => p.Id == Reservation.TourPackageId && !p.IsDeleted);
+
+            if (tourPackage == null)
             {
+                ModelState.AddModelError(string.Empty, "Pacote turístico não encontrado.");
                 return Page();
             }
 
-            _context.Attach(Reservation).State = EntityState.Modified;
+            if (tourPackage.StartDate <= DateTime.Today)
+            {
+                ModelState.AddModelError(string.Empty, "Não é possível reservar pacotes com data passada ou já iniciados.");
+                return Page();
+            }
+
+            if (Reservation.ReservationDate < tourPackage.StartDate)
+            {
+                ModelState.AddModelError(string.Empty, "A data da reserva deve ser posterior ou igual à data de início do pacote.");
+                return Page();
+            }
+
+            var existingReservation = await _context.Reservations
+                .AnyAsync(r => r.Id != Reservation.Id &&
+                               r.ClientId == Reservation.ClientId &&
+                               r.TourPackageId == Reservation.TourPackageId &&
+                               r.ReservationDate == Reservation.ReservationDate &&
+                               !r.IsDeleted);
+
+            if (existingReservation)
+            {
+                ModelState.AddModelError(string.Empty, "Este cliente já possui uma reserva para este pacote na mesma data.");
+                return Page();
+            }
+
+            var totalReservations = await _context.Reservations
+                .CountAsync(r => r.TourPackageId == Reservation.TourPackageId &&
+                                 r.Id != Reservation.Id &&
+                                 !r.IsDeleted);
+
+            if (totalReservations >= tourPackage.MaxCapacity)
+            {
+                ModelState.AddModelError(string.Empty, "Não é possível reservar. O pacote está lotado.");
+                return Page();
+            }
 
             try
             {
+                _context.Attach(Reservation).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!ReservationExists(Reservation.Id))
-                {
                     return NotFound();
-                }
                 else
-                {
                     throw;
-                }
             }
 
             return RedirectToPage("./Index");
@@ -73,7 +109,26 @@ namespace TravelAgency.Pages.Reservations
 
         private bool ReservationExists(int id)
         {
-            return _context.Reservations.Any(e => e.Id == id);
+            return _context.Reservations.Any(e => e.Id == id && !e.IsDeleted);
+        }
+
+        private async Task LoadListsAsync()
+        {
+            var clients = await _context.Clients
+                .Where(c => !c.IsDeleted)
+                .ToListAsync();
+
+            var tourPackages = await _context.TourPackages
+                .Where(p => !p.IsDeleted)
+                .ToListAsync();
+
+            ClientList = new SelectList(clients, "Id", "Name", Reservation.ClientId);
+            TourPackageList = new SelectList(tourPackages, "Id", "Title", Reservation.TourPackageId);
+
+            if (Reservation.ReservationDate == DateTime.MinValue)
+            {
+                Reservation.ReservationDate = DateTime.Today;
+            }
         }
     }
 }

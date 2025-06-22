@@ -21,6 +21,7 @@ namespace TravelAgency.Pages.Reservations
 
         public Reservation Reservation { get; set; } = default!;
         public bool IsFull { get; set; } = false;
+        public int TotalReservations { get; set; } = 0;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -32,6 +33,7 @@ namespace TravelAgency.Pages.Reservations
             var reservation = await _context.Reservations
                 .Include(r => r.Client)
                 .Include(r => r.TourPackage)
+                    .ThenInclude(tp => tp.Destinations)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (reservation == null)
@@ -44,7 +46,8 @@ namespace TravelAgency.Pages.Reservations
             }
 
             var totalReservations = await _context.Reservations
-            .CountAsync(r => r.TourPackageId == Reservation.TourPackageId && !r.IsDeleted);
+                .Where(r => r.TourPackageId == Reservation.TourPackageId && !r.IsDeleted)
+                .CountAsync();
 
             IsFull = totalReservations >= Reservation.TourPackage.MaxCapacity;
 
