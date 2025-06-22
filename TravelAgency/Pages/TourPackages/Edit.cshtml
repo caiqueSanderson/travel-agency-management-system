@@ -9,6 +9,26 @@
 	<h1>Editar Pacote Turístico</h1>
 
 	<form method="post">
+		<div class="mb-3">
+			<label class="form-label">Destinos</label>
+			<div class="form-check" style="max-height: 200px; overflow-y: auto;">
+				@foreach (var destination in Model.AvailableDestinations)
+				{
+					<div class="form-check">
+						<input class="form-check-input"
+							   type="checkbox"
+							   value="@destination.Id"
+							   name="SelectedDestinations"
+							   id="dest_@destination.Id"
+						@(Model.SelectedDestinations.Contains(destination.Id) ? "checked" : "") />
+						<label class="form-check-label" for="dest_@destination.Id">
+							@destination.Name - @destination.Country
+						</label>
+					</div>
+				}
+			</div>
+		</div>
+
 		<partial name="_TourPackageForm" model="Model.TourPackage" />
 
 		<button type="submit" class="btn btn-success">

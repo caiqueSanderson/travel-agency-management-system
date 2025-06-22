@@ -13,15 +13,20 @@ namespace TravelAgency.Pages.TourPackages
 {
     public class EditModel : PageModel
     {
-        private readonly TravelAgency.Data.TravelAgencyContext _context;
+        private readonly TravelAgencyContext _context;
 
-        public EditModel(TravelAgency.Data.TravelAgencyContext context)
+        public EditModel(TravelAgencyContext context)
         {
             _context = context;
         }
 
         [BindProperty]
         public TourPackage TourPackage { get; set; } = default!;
+
+        [BindProperty]
+        public List<int> SelectedDestinations { get; set; } = new();
+
+        public List<Destination> AvailableDestinations { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,48 +35,63 @@ namespace TravelAgency.Pages.TourPackages
                 return NotFound();
             }
 
-            var tourpackage =  await _context.TourPackages.FirstOrDefaultAsync(m => m.Id == id);
-            if (tourpackage == null)
-            {
+            TourPackage = await _context.TourPackages
+                .Include(tp => tp.Destinations)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (TourPackage == null)
                 return NotFound();
-            }
-            TourPackage = tourpackage;
+
+            SelectedDestinations = TourPackage.Destinations.Select(d => d.Id).ToList();
+            await LoadDestinationsAsync();
+
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            if (id == null)
+                return NotFound();
 
-            _context.Attach(TourPackage).State = EntityState.Modified;
+            var tourPackageToUpdate = await _context.TourPackages
+                .Include(tp => tp.Destinations)
+                .FirstOrDefaultAsync(tp => tp.Id == id);
 
-            try
+            if (tourPackageToUpdate == null)
+                return NotFound();
+
+            await LoadDestinationsAsync();
+
+            if (await TryUpdateModelAsync(
+                tourPackageToUpdate,
+                "TourPackage",
+                tp => tp.Title, tp => tp.StartDate,
+                tp => tp.Price, tp => tp.MaxCapacity))
             {
+                // Atualizar os destinos selecionados
+                tourPackageToUpdate.Destinations = await _context.Destinations
+                    .Where(d => SelectedDestinations.Contains(d.Id))
+                    .ToListAsync();
+
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TourPackageExists(TourPackage.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool TourPackageExists(int id)
         {
             return _context.TourPackages.Any(e => e.Id == id);
+        }
+
+        private async Task LoadDestinationsAsync()
+        {
+            AvailableDestinations = await _context.Destinations
+                .Where(d => !d.IsDeleted)
+                .ToListAsync();
         }
     }
 }
